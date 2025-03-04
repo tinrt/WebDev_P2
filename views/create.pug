@@ -1,14 +1,39 @@
-
 extends layout
+
 block content
     h1 Add Contact
     form(method='post', action='/create')
         label First Name:
         input(type='text', name='firstName', required)
+
         label Last Name:
         input(type='text', name='lastName', required)
-        label Phone:
+
+        label Phone Number:
         input(type='text', name='phoneNumber', required)
-        label Email:
+
+        label Email Address:
         input(type='email', name='email', required)
+
+        label Street:
+        input(type='text', name='street', required)
+
+        label City:
+        input(type='text', name='city', required)
+
+        label State:
+        input(type='text', name='state', required)
+
+        label Zip Code:
+        input(type='text', name='zip', required)
+
+        label Country:
+        input(type='text', name='country', required)
+
+        label Contact by Email:
+        input(type='checkbox', name='contactByEmail', value='1')
+
+        label Contact by Phone:
+        input(type='checkbox', name='contactByPhone', value='1')
+
         button(type='submit') Add Contact
