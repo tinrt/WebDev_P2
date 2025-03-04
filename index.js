@@ -42,7 +42,8 @@ const initializeDatabase = () => {
         Zip TEXT,
         Country TEXT,
         Contact_By_Email INTEGER,
-        Contact_By_Phone INTEGER
+        Contact_By_Phone INTEGER,
+        Contact_By_Mail INTEGER
     )`);
 
     db.get("SELECT * FROM Users WHERE Username = ?", ['cmps369'], (err, row) => {
@@ -79,9 +80,9 @@ contactRoutes.get('/create', (req, res) => {
 });
 
 contactRoutes.post('/create', (req, res) => {
-    const { firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail, contactByPhone } = req.body;
-    db.run("INSERT INTO Contact (FirstName, LastName, PhoneNumber, Email, Street, City, State, Zip, Country, Contact_By_Email, Contact_By_Phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail || 0, contactByPhone || 0],
+    const { firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail, contactByPhone, contactByMail } = req.body;
+    db.run("INSERT INTO Contact (FirstName, LastName, PhoneNumber, Email, Street, City, State, Zip, Country, Contact_By_Email, Contact_By_Phone, Contact_By_Mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail || 0, contactByPhone || 0, contactByMail || 0],
         () => {
             res.redirect('/');
         }
@@ -107,9 +108,9 @@ contactRoutes.get('/:id/edit', (req, res) => {
 });
 
 contactRoutes.post('/:id/edit', (req, res) => {
-    const { firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail, contactByPhone } = req.body;
-    db.run("UPDATE Contact SET FirstName=?, LastName=?, PhoneNumber=?, Email=?, Street=?, City=?, State=?, Zip=?, Country=?, Contact_By_Email=?, Contact_By_Phone=? WHERE ID=?",
-        [firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail || 0, contactByPhone || 0, req.params.id],
+    const { firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail, contactByPhone, contactByMail } = req.body;
+    db.run("UPDATE Contact SET FirstName=?, LastName=?, PhoneNumber=?, Email=?, Street=?, City=?, State=?, Zip=?, Country=?, Contact_By_Email=?, Contact_By_Phone=?, Contact_By_Mail=? WHERE ID=?",
+        [firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail || 0, contactByPhone || 0, contactByMail || 0, req.params.id],
         () => {
             res.redirect(`/${req.params.id}`);
         }

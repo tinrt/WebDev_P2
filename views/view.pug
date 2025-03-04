@@ -16,6 +16,9 @@ block content
         if contact.Contact_By_Phone
             p
                 i May be contacted by phone or text
+        else
+            p
+                i May NOT be contacted by phone or text
         
         hr
         p
@@ -25,6 +28,9 @@ block content
         if contact.Contact_By_Email
             p
                 i May be contacted by email
+        else
+            p
+                i May NOT be contacted by email
         
         hr
         p
@@ -37,8 +43,12 @@ block content
             span #{contact.Zip}
         section #{contact.Country}
         
-        p
-            i May NOT be contacted by mail
+        if contact.Contact_By_Mail
+            p
+                i May be contacted by mail
+        else
+            p
+                i May NOT be contacted by mail
         
         hr
         a(href='/' + contact.ID + '/edit') Edit contact
