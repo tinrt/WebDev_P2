@@ -66,7 +66,11 @@ const contactRoutes = express.Router();
 
 contactRoutes.get('/', (req, res) => {
     db.all("SELECT * FROM Contact", [], (err, contacts) => {
-        res.render('index', { contacts, user: req.session.user });
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).send("Internal Server Error");
+        }
+        res.render('index', { contacts: contacts || [], user: req.session.user });
     });
 });
 
