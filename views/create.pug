@@ -1,0 +1,14 @@
+
+extends layout
+block content
+    h1 Add Contact
+    form(method='post', action='/create')
+        label First Name:
+        input(type='text', name='firstName', required)
+        label Last Name:
+        input(type='text', name='lastName', required)
+        label Phone:
+        input(type='text', name='phoneNumber', required)
+        label Email:
+        input(type='email', name='email', required)
+        button(type='submit') Add Contact

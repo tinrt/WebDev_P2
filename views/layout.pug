@@ -1,0 +1,16 @@
+
+doctype html
+html
+    head
+        title Contact List
+        link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/water.css@2/out/water.css')
+    body
+        nav
+            a(href='/') Home |
+            if !user
+                a(href='/login') Login |
+                a(href='/signup') Signup
+            else
+                a(href='/logout') Logout |
+                a(href='/create') Add Contact
+        block content

@@ -1,0 +1,8 @@
+
+extends layout
+block content
+    h1 Confirm Delete
+    p Are you sure you want to delete this contact?
+    form(method='post', action='/' + contactId + '/delete')
+        button(type='submit') Delete
+        a(href='/') Cancel

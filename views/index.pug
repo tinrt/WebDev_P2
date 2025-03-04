@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    h1 Contact List
+    table
+        thead
+            tr
+                th Name
+                th Email
+                th Phone
+                th Actions
+        tbody
+            each contact in contacts
+                tr
+                    td= contact.FirstName + " " + contact.LastName
+                    td= contact.Email
+                    td= contact.PhoneNumber
+                    td
+                        a(href='/' + contact.ID) View |
+                        a(href='/' + contact.ID + '/edit') Edit |
+                        a(href='/' + contact.ID + '/delete') Delete |
+                        form(method='post', action='/' + contact.ID + '/spam', style='display:inline;')
+                            button(type='submit') Mark as Spam

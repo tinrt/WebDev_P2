@@ -1,0 +1,9 @@
+
+extends layout
+block content
+    h1 Contact Details
+    p Name: #{contact.FirstName} #{contact.LastName}
+    p Email: #{contact.Email}
+    p Phone: #{contact.PhoneNumber}
+    a(href='/' + contact.ID + '/edit') Edit |
+    a(href='/' + contact.ID + '/delete') Delete
