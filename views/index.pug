@@ -3,19 +3,32 @@ extends layout
 block content
     h1 Contact List
     a(href='/create') Create a new contact
+    
     table
         thead
             tr
                 th Name
                 th Email
                 th Phone
+                th Address
+                th Contact
                 th Actions
         tbody
             each contact in contacts
                 tr
-                    td= contact.FirstName + " " + contact.LastName
-                    td= contact.Email
-                    td= contact.PhoneNumber
+                    td: a(href='/' + contact.ID) #{contact.FirstName} #{contact.LastName}
+                    td #{contact.Email}
+                    td #{contact.PhoneNumber}
+                    td
+                        p #{contact.Street}
+                        p #{contact.City}, #{contact.State} #{contact.Zip}
+                        p #{contact.Country}
+                    td
+                        input(type='checkbox', checked=contact.Contact_By_Phone, disabled)
+                        | Phone
+                        br
+                        input(type='checkbox', checked=contact.Contact_By_Email, disabled)
+                        | Email
                     td
                         a(href='/' + contact.ID) View |
                         a(href='/' + contact.ID + '/edit') Edit |
