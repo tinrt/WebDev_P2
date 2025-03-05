@@ -60,6 +60,32 @@ initializeDatabase();
 
 // User authentication routes
 const userRoutes = express.Router();
+
+userRoutes.get('/login', (req, res) => {
+    res.render('login');
+});
+
+userRoutes.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    db.get("SELECT * FROM Users WHERE Username = ?", [username], (err, user) => {
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).send("Internal Server Error");
+        }
+        if (!user || !bcrypt.compareSync(password, user.Password)) {
+            return res.render('login', { error: 'Invalid username or password' });
+        }
+        req.session.user = user;
+        res.redirect('/');
+    });
+});
+
+userRoutes.get('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/');
+    });
+});
+
 app.use('/', userRoutes);
 
 // Contact management routes
@@ -81,13 +107,26 @@ contactRoutes.get('/create', (req, res) => {
 
 contactRoutes.post('/create', (req, res) => {
     const { firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail, contactByPhone, contactByMail } = req.body;
-    db.run("INSERT INTO Contact (FirstName, LastName, PhoneNumber, Email, Street, City, State, Zip, Country, Contact_By_Email, Contact_By_Phone, Contact_By_Mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail || 0, contactByPhone || 0, contactByMail || 0],
-        () => {
-            res.redirect('/');
+
+    const sql = `INSERT INTO Contact 
+        (FirstName, LastName, PhoneNumber, Email, Street, City, State, Zip, Country, Contact_By_Email, Contact_By_Phone, Contact_By_Mail) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+    const params = [
+        firstName, lastName, phoneNumber, email, street, city, state, zip, country, 
+        contactByEmail ? 1 : 0, contactByPhone ? 1 : 0, contactByMail ? 1 : 0
+    ];
+
+    db.run(sql, params, function(err) {
+        if (err) {
+            console.error("Database Insert Error:", err);
+            return res.status(500).send("Error adding contact.");
         }
-    );
+        console.log("New contact added with ID:", this.lastID);
+        res.redirect('/');
+    });
 });
+
 
 contactRoutes.get('/:id', (req, res) => {
     db.get("SELECT * FROM Contact WHERE ID = ?", [req.params.id], (err, contact) => {
