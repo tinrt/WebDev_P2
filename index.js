@@ -20,6 +20,14 @@ app.use((req, res, next) => {
     next();
 });
 
+// Middleware to check if user is logged in
+const requireAuth = (req, res, next) => {
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+    next();
+};
+
 // Initialize database
 const initializeDatabase = () => {
     db.run(`CREATE TABLE IF NOT EXISTS Users (
@@ -101,32 +109,41 @@ contactRoutes.get('/', (req, res) => {
     });
 });
 
-contactRoutes.get('/create', (req, res) => {
+contactRoutes.get('/create', requireAuth, (req, res) => {
     res.render('create', { user: req.session.user });
 });
 
-contactRoutes.post('/create', (req, res) => {
+contactRoutes.post('/create', requireAuth, (req, res) => {
     const { firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail, contactByPhone, contactByMail } = req.body;
-
     const sql = `INSERT INTO Contact 
         (FirstName, LastName, PhoneNumber, Email, Street, City, State, Zip, Country, Contact_By_Email, Contact_By_Phone, Contact_By_Mail) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-
     const params = [
         firstName, lastName, phoneNumber, email, street, city, state, zip, country, 
         contactByEmail ? 1 : 0, contactByPhone ? 1 : 0, contactByMail ? 1 : 0
     ];
-
     db.run(sql, params, function(err) {
         if (err) {
             console.error("Database Insert Error:", err);
             return res.status(500).send("Error adding contact.");
         }
-        console.log("New contact added with ID:", this.lastID);
         res.redirect('/');
     });
 });
 
+contactRoutes.get('/:id/delete', requireAuth, (req, res) => {
+    res.render('delete', { contactId: req.params.id, user: req.session.user });
+});
+
+contactRoutes.post('/:id/delete', requireAuth, (req, res) => {
+    db.run("DELETE FROM Contact WHERE ID = ?", [req.params.id], function(err) {
+        if (err) {
+            console.error("Database Delete Error:", err);
+            return res.status(500).send("Error deleting contact.");
+        }
+        res.redirect('/');
+    });
+});
 
 contactRoutes.get('/:id', (req, res) => {
     db.get("SELECT * FROM Contact WHERE ID = ?", [req.params.id], (err, contact) => {
@@ -137,7 +154,7 @@ contactRoutes.get('/:id', (req, res) => {
     });
 });
 
-contactRoutes.get('/:id/edit', (req, res) => {
+contactRoutes.get('/:id/edit', requireAuth, (req, res) => {
     db.get("SELECT * FROM Contact WHERE ID = ?", [req.params.id], (err, contact) => {
         if (!contact) {
             return res.status(404).send("Contact not found.");
@@ -146,24 +163,18 @@ contactRoutes.get('/:id/edit', (req, res) => {
     });
 });
 
-contactRoutes.post('/:id/edit', (req, res) => {
+contactRoutes.post('/:id/edit', requireAuth, (req, res) => {
     const { firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail, contactByPhone, contactByMail } = req.body;
     db.run("UPDATE Contact SET FirstName=?, LastName=?, PhoneNumber=?, Email=?, Street=?, City=?, State=?, Zip=?, Country=?, Contact_By_Email=?, Contact_By_Phone=?, Contact_By_Mail=? WHERE ID=?",
         [firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail || 0, contactByPhone || 0, contactByMail || 0, req.params.id],
-        () => {
+        function(err) {
+            if (err) {
+                console.error("Database Update Error:", err);
+                return res.status(500).send("Error updating contact.");
+            }
             res.redirect(`/${req.params.id}`);
         }
     );
-});
-
-contactRoutes.get('/:id/delete', (req, res) => {
-    res.render('delete', { contactId: req.params.id, user: req.session.user });
-});
-
-contactRoutes.post('/:id/delete', (req, res) => {
-    db.run("DELETE FROM Contact WHERE ID = ?", [req.params.id], () => {
-        res.redirect('/');
-    });
 });
 
 app.use('/', contactRoutes);
