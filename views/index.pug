@@ -24,13 +24,11 @@ block content
                         p #{contact.City}, #{contact.State} #{contact.Zip}
                         p #{contact.Country}
                     td
-                        input(type='checkbox', checked=contact.Contact_By_Phone, disabled)
+                        input(type='checkbox', disabled, checked=contact.Contact_By_Phone ? true : undefined)
                         | Phone
                         br
-                        input(type='checkbox', checked=contact.Contact_By_Email, disabled)
+                        input(type='checkbox', disabled, checked=contact.Contact_By_Email ? true : undefined)
                         | Email
                         br
-                        input(type='checkbox', checked=contact.Contact_By_Mail, disabled)
+                        input(type='checkbox', disabled, checked=contact.Contact_By_Mail ? true : undefined)
                         | Mail
-
-                        
