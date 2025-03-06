@@ -6,8 +6,8 @@ html
     body
         nav
             if !user
-                a(href='/login') Login |
-                a(href='/signup') Signup
+                a(href='/login') Sign in |
+                a(href='/signup') Sign up
             else
                 span #{user.Username} |
                 a(href='/logout') Logout
