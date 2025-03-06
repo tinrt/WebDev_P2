@@ -88,6 +88,35 @@ userRoutes.post('/login', (req, res) => {
     });
 });
 
+userRoutes.get('/signup', (req, res) => {
+    res.render('signup');
+});
+
+userRoutes.post('/signup', (req, res) => {
+    const { firstName, lastName, username, password, confirmPassword } = req.body;
+
+    if (password !== confirmPassword) {
+        return res.render('signup', { error: 'Passwords do not match' });
+    }
+
+    bcrypt.hash(password, 10, (err, hash) => {
+        if (err) {
+            return res.render('signup', { error: 'Error encrypting password' });
+        }
+
+        db.run(
+            "INSERT INTO Users (FirstName, LastName, Username, Password) VALUES (?, ?, ?, ?)",
+            [firstName, lastName, username, hash],
+            function (err) {
+                if (err) {
+                    return res.render('signup', { error: 'Username already exists' });
+                }
+                res.redirect('/login');
+            }
+        );
+    });
+});
+
 userRoutes.get('/logout', (req, res) => {
     req.session.destroy(() => {
         res.redirect('/');
