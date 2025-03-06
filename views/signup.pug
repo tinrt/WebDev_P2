@@ -1,7 +1,7 @@
 
 extends layout
 block content
-    h1 Signup
+    h1 Sign up
     if error
         p.error #{error}
     form(method='post', action='/signup')
@@ -15,4 +15,4 @@ block content
         input(type='password', name='password', required)
         label Confirm Password:
         input(type='password', name='confirmPassword', required)
-        button(type='submit') Signup
+        button(type='submit') Sign up
