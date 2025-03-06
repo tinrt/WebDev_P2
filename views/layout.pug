@@ -1,4 +1,3 @@
-
 doctype html
 html
     head
@@ -10,6 +9,6 @@ html
                 a(href='/login') Login |
                 a(href='/signup') Signup
             else
-                a(href='/logout') Logout |
-                a(href='/create') Add Contact
+                span Welcome, #{user.firstName} #{user.lastName} |
+                a(href='/logout') Logout
         block content
