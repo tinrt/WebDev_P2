@@ -137,12 +137,11 @@ contactRoutes.get('/', (req, res) => {
         res.render('index', { contacts: contacts || [], user: req.session.user });
     });
 });
-
-contactRoutes.get('/create', requireAuth, (req, res) => {
+contactRoutes.get('/create', (req, res) => {
     res.render('create', { user: req.session.user });
 });
 
-contactRoutes.post('/create', requireAuth, (req, res) => {
+contactRoutes.post('/create', (req, res) => {
     const { firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail, contactByPhone, contactByMail } = req.body;
     const sql = `INSERT INTO Contact 
         (FirstName, LastName, PhoneNumber, Email, Street, City, State, Zip, Country, Contact_By_Email, Contact_By_Phone, Contact_By_Mail) 
