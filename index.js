@@ -185,6 +185,10 @@ contactRoutes.get('/:id', (req, res) => {
 
 contactRoutes.get('/:id/edit', requireAuth, (req, res) => {
     db.get("SELECT * FROM Contact WHERE ID = ?", [req.params.id], (err, contact) => {
+        if (err) {
+            console.error("Database Fetch Error:", err);
+            return res.status(500).send("Internal Server Error");
+        }
         if (!contact) {
             return res.status(404).send("Contact not found.");
         }
@@ -193,9 +197,15 @@ contactRoutes.get('/:id/edit', requireAuth, (req, res) => {
 });
 
 contactRoutes.post('/:id/edit', requireAuth, (req, res) => {
-    const { firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail, contactByPhone, contactByMail } = req.body;
-    db.run("UPDATE Contact SET FirstName=?, LastName=?, PhoneNumber=?, Email=?, Street=?, City=?, State=?, Zip=?, Country=?, Contact_By_Email=?, Contact_By_Phone=?, Contact_By_Mail=? WHERE ID=?",
-        [firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail || 0, contactByPhone || 0, contactByMail || 0, req.params.id],
+    const { firstName, lastName, phoneNumber, email, street, city, state, zip, country } = req.body;
+
+    const contactByEmail = req.body.contactByEmail ? 1 : 0;
+    const contactByPhone = req.body.contactByPhone ? 1 : 0;
+    const contactByMail = req.body.contactByMail ? 1 : 0;
+
+    db.run(
+        "UPDATE Contact SET FirstName=?, LastName=?, PhoneNumber=?, Email=?, Street=?, City=?, State=?, Zip=?, Country=?, Contact_By_Email=?, Contact_By_Phone=?, Contact_By_Mail=? WHERE ID=?",
+        [firstName, lastName, phoneNumber, email, street, city, state, zip, country, contactByEmail, contactByPhone, contactByMail, req.params.id],
         function(err) {
             if (err) {
                 console.error("Database Update Error:", err);
@@ -205,6 +215,7 @@ contactRoutes.post('/:id/edit', requireAuth, (req, res) => {
         }
     );
 });
+
 
 app.use('/', contactRoutes);
 

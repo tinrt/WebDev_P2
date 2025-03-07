@@ -1,14 +1,53 @@
-
 extends layout
+
 block content
     h1 Edit Contact
+
     form(method='post', action='/' + contact.ID + '/edit')
-        label First Name:
-        input(type='text', name='firstName', value=contact.FirstName, required)
-        label Last Name:
-        input(type='text', name='lastName', value=contact.LastName, required)
-        label Phone:
-        input(type='text', name='phoneNumber', value=contact.PhoneNumber, required)
-        label Email:
-        input(type='email', name='email', value=contact.Email, required)
-        button(type='submit') Save Changes
+        fieldset
+            legend Basic Info
+            section
+                label(for='firstName') First Name:
+                input(type='text', name='firstName', value=contact.FirstName, required)
+            section
+                label(for='lastName') Last Name:
+                input(type='text', name='lastName', value=contact.LastName, required)
+            section
+                label(for='phoneNumber') Phone:
+                input(type='tel', name='phoneNumber', value=contact.PhoneNumber, required)
+            section
+                label(for='email') Email:
+                input(type='email', name='email', value=contact.Email, required)
+        
+        fieldset
+            legend Address
+            section
+                label(for='street') Street:
+                input(type='text', name='street', value=contact.Street, required)
+            section
+                label(for='city') City:
+                input(type='text', name='city', value=contact.City, required)
+            section
+                label(for='state') State:
+                input(type='text', name='state', value=contact.State, required)
+            section
+                label(for='zip') Zip:
+                input(type='text', name='zip', value=contact.Zip, required)
+            section
+                label(for='country') Country:
+                input(type='text', name='country', value=contact.Country, required)
+
+        fieldset
+            legend Contact Preferences
+            section
+                input(type='checkbox', name='contactByPhone', checked=(contact.Contact_By_Phone ? 'checked' : undefined))
+                label(for='contactByPhone') Contact by phone
+            section
+                input(type='checkbox', name='contactByEmail', checked=(contact.Contact_By_Email ? 'checked' : undefined))
+                label(for='contactByEmail') Contact by email
+            section
+                input(type='checkbox', name='contactByMail', checked=(contact.Contact_By_Mail ? 'checked' : undefined))
+                label(for='contactByMail') Contact by mail
+
+        button(type='submit') Save
+        a(href='/' + contact.ID) Cancel
