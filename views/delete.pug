@@ -1,8 +1,12 @@
-
 extends layout
+
 block content
-    h1 Confirm Delete
+    
+    h1 Delete Contact
+    h2 #{contact.FirstName} #{contact.LastName}
+    
     p Are you sure you want to delete this contact?
-    form(method='post', action='/' + contactId + '/delete')
-        button(type='submit') Delete
-        a(href='/') Cancel
+    
+    form(method='post', action='/' + contact.ID + '/delete')
+        button(type='submit') Yes! 
+        a(href='/' + contact.ID) Nevermind

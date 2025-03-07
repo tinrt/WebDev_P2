@@ -161,7 +161,16 @@ contactRoutes.post('/create', requireAuth, (req, res) => {
 });
 
 contactRoutes.get('/:id/delete', requireAuth, (req, res) => {
-    res.render('delete', { contactId: req.params.id, user: req.session.user });
+    db.get("SELECT * FROM Contact WHERE ID = ?", [req.params.id], (err, contact) => {
+        if (err) {
+            console.error("Database Fetch Error:", err);
+            return res.status(500).send("Internal Server Error");
+        }
+        if (!contact) {
+            return res.status(404).send("Contact not found.");
+        }
+        res.render('delete', { contact, user: req.session.user });
+    });
 });
 
 contactRoutes.post('/:id/delete', requireAuth, (req, res) => {
@@ -173,6 +182,7 @@ contactRoutes.post('/:id/delete', requireAuth, (req, res) => {
         res.redirect('/');
     });
 });
+
 
 contactRoutes.get('/:id', (req, res) => {
     db.get("SELECT * FROM Contact WHERE ID = ?", [req.params.id], (err, contact) => {
