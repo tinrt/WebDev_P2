@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const path = require('path');
 const bodyParser = require('body-parser');
-const dbcmps369 = require('dbcmps369');
+const dbcmps369 = require('dbcmps369'); //???????
 
 const app = express();
 const db = new sqlite3.Database('./contacts.db');
@@ -14,13 +14,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'secret-key', resave: false, saveUninitialized: true }));
 
-// Middleware to add db to req
+
 app.use((req, res, next) => {
     req.db = db;
     next();
 });
 
-// Middleware to check if user is logged in
+
 const requireAuth = (req, res, next) => {
     if (!req.session.user) {
         return res.redirect('/login');
@@ -28,7 +28,7 @@ const requireAuth = (req, res, next) => {
     next();
 };
 
-// Initialize database
+
 const initializeDatabase = () => {
     db.run(`CREATE TABLE IF NOT EXISTS Users (
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -66,7 +66,6 @@ const initializeDatabase = () => {
 
 initializeDatabase();
 
-// User authentication routes
 const userRoutes = express.Router();
 
 userRoutes.get('/login', (req, res) => {
@@ -125,7 +124,7 @@ userRoutes.get('/logout', (req, res) => {
 
 app.use('/', userRoutes);
 
-// Contact management routes
+
 const contactRoutes = express.Router();
 
 contactRoutes.get('/', (req, res) => {
