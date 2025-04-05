@@ -1,56 +1,57 @@
 extends layout
 
 block content
-    a(href='/login') Sign in
-    h1 Create Contact
+    .container
+        a(href='/login') Sign in
+        h1 Create Contact
+        
+        form(action='/create', method='post')
+            fieldset
+                legend Basic Info
+                    .form-group
+                            label.col-form-label(for='first') First Name:
+                            input.form-control(name='firstName', required)
+                    .form-group
+                            label.col-form-label(for='last') Last Name:
+                            input.form-control(name='lastName', required)
+                    .form-group
+                            label.col-form-label(for='phone') Phone:
+                            input.form-control(type='tel', name='phoneNumber', required)
+                    .form-group
+                            label.col-form-label(for='email') Email:
+                            input.form-control(type='email', name='email', required)
+            
+            fieldset
+                legend Address
+                    .form-group
+                            label.col-form-label(for='street') Street:
+                            input.form-control(name='street', required)
+                    .form-group
+                            label.col-form-label(for='city') City:
+                            input.form-control(name='city', required)
+                    .form-group
+                            label.col-form-label(for='state') State:
+                            input.form-control(name='state', required)
+                    .form-group
+                            label.col-form-label(for='zip') Zip:
+                            input.form-control(name='zip', required)
+                    .form-group
+                            label.col-form-label(for='country') Country:
+                            input.form-control(name='country', required)
+            
+            fieldset
+                legend Contact Preferences
+                    .form-group
+                            input.form-control(type='checkbox', name='contactByPhone')
+                            label.col-form-label(for='contactByPhone') Contact by phone
+                    .form-group
+                            input.form-control(type='checkbox', name='contactByEmail')
+                            label.col-form-label(for='contactByEmail') Contact by email
+                    .form-group
+                            input.form-control(type='checkbox', name='contactByMail')
+                            label.col-form-label(for='contactByMail') Contact by mail
+            
+            button(type='submit') Add
+            a(href='/') Cancel
+        
     
-    form(action='/create', method='post')
-        fieldset
-            legend Basic Info
-            section
-                label(for='first') First Name:
-                input(name='firstName', required)
-            section
-                label(for='last') Last Name:
-                input(name='lastName', required)
-            section
-                label(for='phone') Phone:
-                input(type='tel', name='phoneNumber', required)
-            section
-                label(for='email') Email:
-                input(type='email', name='email', required)
-        
-        fieldset
-            legend Address
-            section
-                label(for='street') Street:
-                input(name='street', required)
-            section
-                label(for='city') City:
-                input(name='city', required)
-            section
-                label(for='state') State:
-                input(name='state', required)
-            section
-                label(for='zip') Zip:
-                input(name='zip', required)
-            section
-                label(for='country') Country:
-                input(name='country', required)
-        
-        fieldset
-            legend Contact Preferences
-            section
-                input(type='checkbox', name='contactByPhone')
-                label(for='contactByPhone') Contact by phone
-            section
-                input(type='checkbox', name='contactByEmail')
-                label(for='contactByEmail') Contact by email
-            section
-                input(type='checkbox', name='contactByMail')
-                label(for='contactByMail') Contact by mail
-        
-        button(type='submit') Add
-        a(href='/') Cancel
-    
-

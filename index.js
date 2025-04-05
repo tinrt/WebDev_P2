@@ -10,6 +10,7 @@ const app = express();
 const db = new sqlite3.Database('./contacts.db');
 
 app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'secret-key', resave: false, saveUninitialized: true }));

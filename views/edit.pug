@@ -1,53 +1,54 @@
 extends layout
 
 block content
-    h1 Edit Contact
-
-    form(method='post', action='/' + contact.ID + '/edit')
-        fieldset
-            legend Basic Info
-            section
-                label(for='firstName') First Name:
-                input(type='text', name='firstName', value=contact.FirstName, required)
-            section
-                label(for='lastName') Last Name:
-                input(type='text', name='lastName', value=contact.LastName, required)
-            section
-                label(for='phoneNumber') Phone:
-                input(type='tel', name='phoneNumber', value=contact.PhoneNumber, required)
-            section
-                label(for='email') Email:
-                input(type='email', name='email', value=contact.Email, required)
-        
-        fieldset
-            legend Address
-            section
-                label(for='street') Street:
-                input(type='text', name='street', value=contact.Street, required)
-            section
-                label(for='city') City:
-                input(type='text', name='city', value=contact.City, required)
-            section
-                label(for='state') State:
-                input(type='text', name='state', value=contact.State, required)
-            section
-                label(for='zip') Zip:
-                input(type='text', name='zip', value=contact.Zip, required)
-            section
-                label(for='country') Country:
-                input(type='text', name='country', value=contact.Country, required)
-
-        fieldset
-            legend Contact Preferences
-            section
-                input(type='checkbox', name='contactByPhone', checked=(contact.Contact_By_Phone ? 'checked' : undefined))
-                label(for='contactByPhone') Contact by phone
-            section
-                input(type='checkbox', name='contactByEmail', checked=(contact.Contact_By_Email ? 'checked' : undefined))
-                label(for='contactByEmail') Contact by email
-            section
-                input(type='checkbox', name='contactByMail', checked=(contact.Contact_By_Mail ? 'checked' : undefined))
-                label(for='contactByMail') Contact by mail
-
-        button(type='submit') Save
-        a(href='/' + contact.ID) Cancel
+    .container
+        h1 Edit Contact
+    
+        form(method='post', action='/' + contact.ID + '/edit')
+            fieldset
+                legend Basic Info
+                    .form-group
+                            label.col-form-label(for='firstName') First Name:
+                            input.form-control(type='text', name='firstName', value=contact.FirstName, required)
+                    .form-group
+                            label.col-form-label(for='lastName') Last Name:
+                            input.form-control(type='text', name='lastName', value=contact.LastName, required)
+                    .form-group
+                            label.col-form-label(for='phoneNumber') Phone:
+                            input.form-control(type='tel', name='phoneNumber', value=contact.PhoneNumber, required)
+                    .form-group
+                            label.col-form-label(for='email') Email:
+                            input.form-control(type='email', name='email', value=contact.Email, required)
+            
+            fieldset
+                legend Address
+                    .form-group
+                            label.col-form-label(for='street') Street:
+                            input.form-control(type='text', name='street', value=contact.Street, required)
+                    .form-group
+                            label.col-form-label(for='city') City:
+                            input.form-control(type='text', name='city', value=contact.City, required)
+                    .form-group
+                            label.col-form-label(for='state') State:
+                            input.form-control(type='text', name='state', value=contact.State, required)
+                    .form-group
+                            label.col-form-label(for='zip') Zip:
+                            input.form-control(type='text', name='zip', value=contact.Zip, required)
+                    .form-group
+                            label.col-form-label(for='country') Country:
+                            input.form-control(type='text', name='country', value=contact.Country, required)
+    
+            fieldset
+                legend Contact Preferences
+                    .form-group
+                            input.form-control(type='checkbox', name='contactByPhone', checked=(contact.Contact_By_Phone ? 'checked' : undefined))
+                            label.col-form-label(for='contactByPhone') Contact by phone
+                    .form-group
+                            input.form-control(type='checkbox', name='contactByEmail', checked=(contact.Contact_By_Email ? 'checked' : undefined))
+                            label.col-form-label(for='contactByEmail') Contact by email
+                    .form-group
+                            input.form-control(type='checkbox', name='contactByMail', checked=(contact.Contact_By_Mail ? 'checked' : undefined))
+                            label.col-form-label(for='contactByMail') Contact by mail
+    
+            button.btn(type='submit') Save
+            a(href='/' + contact.ID) Cancel

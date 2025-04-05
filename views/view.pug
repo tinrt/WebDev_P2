@@ -1,58 +1,59 @@
 extends layout
 
 block content
-    
-    h1 Contact Info
-    
-    if contact
-        h2 #{contact.FirstName} #{contact.LastName}
-        hr
-        a(href='/') Back to list
+    .container
         
-        p
-            b Phone number: 
-            span #{contact.PhoneNumber}
+        h1 Contact Info
         
-        if contact.Contact_By_Phone
+        if contact
+            h2 #{contact.FirstName} #{contact.LastName}
+            hr
+            a(href='/') Back to list
+            
             p
-                i May be contacted by phone or text
+                b Phone number: 
+                span #{contact.PhoneNumber}
+            
+            if contact.Contact_By_Phone
+                p
+                    i May be contacted by phone or text
+            else
+                p
+                    i May NOT be contacted by phone or text
+            
+            hr
+            p
+                b Email address 
+                span #{contact.Email}
+            
+            if contact.Contact_By_Email
+                p
+                    i May be contacted by email
+            else
+                p
+                    i May NOT be contacted by email
+            
+            hr
+            p
+                b Address:
+            
+            section #{contact.Street}
+            section
+                span #{contact.City}, 
+                span #{contact.State} 
+                span #{contact.Zip}
+            section #{contact.Country}
+            
+            if contact.Contact_By_Mail
+                p
+                    i May be contacted by mail
+            else
+                p
+                    i May NOT be contacted by mail
+            
+            hr
+            a(href='/' + contact.ID + '/edit') Edit contact
+            br
+            a(href='/' + contact.ID + '/delete') Delete contact
         else
-            p
-                i May NOT be contacted by phone or text
-        
-        hr
-        p
-            b Email address 
-            span #{contact.Email}
-        
-        if contact.Contact_By_Email
-            p
-                i May be contacted by email
-        else
-            p
-                i May NOT be contacted by email
-        
-        hr
-        p
-            b Address:
-        
-        section #{contact.Street}
-        section
-            span #{contact.City}, 
-            span #{contact.State} 
-            span #{contact.Zip}
-        section #{contact.Country}
-        
-        if contact.Contact_By_Mail
-            p
-                i May be contacted by mail
-        else
-            p
-                i May NOT be contacted by mail
-        
-        hr
-        a(href='/' + contact.ID + '/edit') Edit contact
-        br
-        a(href='/' + contact.ID + '/delete') Delete contact
-    else
-        p Contact not found.
+            p Contact not found.

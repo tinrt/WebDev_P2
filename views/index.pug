@@ -1,34 +1,42 @@
 extends layout
 
 block content
-    h1 Contact List
-    a(href='/create') Create a new contact
+    .container
+        .container
+            .d-flex.justify-content-between.align-items-center.mb-4
+                h1.mb-0 Contact List
+                a.btn.btn-success(href='/create') + New Contact
     
-    table
-        thead
-            tr
-                th Name
-                th Email
-                th Phone
-                th Address
-                th Contact
-               
-        tbody
-            each contact in contacts
-                tr
-                    td: a(href='/' + contact.ID) #{contact.FirstName} #{contact.LastName}
-                    td #{contact.Email}
-                    td #{contact.PhoneNumber}
-                    td
-                        p #{contact.Street}
-                        p #{contact.City}, #{contact.State} #{contact.Zip}
-                        p #{contact.Country}
-                    td
-                        input(type='checkbox', disabled, checked=contact.Contact_By_Phone ? true : undefined)
-                        | Phone
-                        br
-                        input(type='checkbox', disabled, checked=contact.Contact_By_Email ? true : undefined)
-                        | Email
-                        br
-                        input(type='checkbox', disabled, checked=contact.Contact_By_Mail ? true : undefined)
-                        | Mail
+            table.table.table-bordered.table-striped
+                thead
+                    tr
+                        th Name
+                        th Email
+                        th Phone
+                        th Address
+                        th Contact Methods
+    
+                tbody
+                    each contact in contacts
+                        tr
+                            td(data-label='Name')
+                                a(href='/' + contact.ID) #{contact.FirstName} #{contact.LastName}
+                            td(data-label='Email') #{contact.Email}
+                            td(data-label='Phone') #{contact.PhoneNumber}
+                            td(data-label='Address')
+                                p.mb-0 #{contact.Street}
+                                p.mb-0 #{contact.City}, #{contact.State} #{contact.Zip}
+                                p.mb-0 #{contact.Country}
+                            td(data-label='Contact Methods')
+                                if contact.Contact_By_Phone
+                                    div
+                                        input(type='checkbox', disabled, checked)
+                                        |  Phone
+                                if contact.Contact_By_Email
+                                    div
+                                        input(type='checkbox', disabled, checked)
+                                        |  Email
+                                if contact.Contact_By_Mail
+                                    div
+                                        input(type='checkbox', disabled, checked)
+                                        |  Mail
